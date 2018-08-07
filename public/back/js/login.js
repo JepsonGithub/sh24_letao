@@ -35,6 +35,10 @@ $(function() {
             min: 2,
             max: 6,
             message: "用户名长度必须是2-6位"
+          },
+          // 专门用于处理 ajax 校验
+          callback: {
+            message: "用户名不存在"
           }
         }
       },
@@ -49,6 +53,9 @@ $(function() {
             min: 6,
             max: 12,
             message: "密码长度必须是6-12位"
+          },
+          callback: {
+            message: "密码错误"
           }
         }
       }
@@ -86,11 +93,18 @@ $(function() {
         }
 
         if ( info.error === 1000 ) {
-          alert("用户名不存在");
+          // alert("用户名不存在");
+          // 如果用户名不存在, 需要将表单校验状态置成 校验失败 状态, 并提示用户
+          // 插件方法 updateStatus
+          // 参数1: 字段名称
+          // 参数2: 校验状态, VALID成功的, INVALID失败的, NOT_VALIDATED未校验的
+          // 参数3: 指定校验规则, 可以设置提示信息
+          $('#form').data("bootstrapValidator").updateStatus("username", "INVALID", "callback")
         }
 
         if ( info.error === 1001 ) {
-          alert("密码错误");
+          //alert("密码错误");
+          $('#form').data("bootstrapValidator").updateStatus("password", "INVALID", "callback");
         }
 
       }
