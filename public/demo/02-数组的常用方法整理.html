@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<script>
+
+  // 数组的常用方法
+  // push()    往数组后面追加,       返回新数组的长度
+  // pop()     在数组最后删除一项,   返回被删除的项
+  // unshift() 往数组前面追加,       返回新数组的长度
+  // shift()   在数组最前面删除一项   返回被删除的项
+
+  // 字符串切割成数组  www.baidu.com  => ["www", "baidu", "com"]
+  // str.split("."); 将字符串切割成数组
+
+  // 数组通过字符拼接成字符串
+  // arr.join(连接符);
+
+
+  // arr.slice 返回一个新数组, 并且不会改变原数组
+  // 数组的截取, arr.slice(start, end);
+  // start: 从哪开始, end: 到哪结束, slice截取包括start, 不包括end
+  // 应用:
+  // 1. 数组的克隆, arr.slice(); 截取了整个数组并返回
+  // 2. arr.slice(1); 从索引 1开始, 向后截取全部
+  // 3. arr.slice(1, -1);  如果传负值, 表示倒着数
+  //    arr.slice(-2); 可以截取最后的两项
+
+
+
+  // arr.splice(index, num, arg1, arg2, arg3 ..... ) 会修改原数组
+  // 参数1: 从哪开始
+  // 参数2: 删几个
+  // 参数3: 添加的项
+  // 参数4: 添加的项
+  // ....
+
+  var arr = ["关羽", "赵云", "马超", "张飞", "黄忠" ];
+  // 添加
+  //  arr.splice( 1, 0, "大桥", "小乔" );
+  //  console.log( arr );
+
+  // 删除
+  // arr.splice( 2, 1 );
+  // console.log( arr );
+
+  // 替换
+  arr.splice( 1, 1, "马云" );
+  console.log( arr );
+
+
+
+
+</script>
+
+</body>
+</html>

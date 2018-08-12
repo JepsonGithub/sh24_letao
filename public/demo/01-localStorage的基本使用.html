@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<script>
+
+  // 1. localStorage 基本 api
+  // (1) 设置 localStorage.setItem(key, value);
+  // (2) 获取 localStorage.getItem(key);
+  // (3) 删除一项 localStorage.removeItem(key);
+  // (4) 清空所有 localStorage.clear();
+
+  // 2. 使用localStorage注意点: 只能存储字符串类型数据
+
+  // localStorage存取复杂数据类型
+  // 要求存对象 { name: "小红", age: 18 } 到本地存储中, 并且将来取出来打印 name
+
+  // (1) 存复杂数据类型,  obj -> jsonStr
+  //     JSON.stringify(obj); 将复杂数据类型转换成 jsonStr
+  //     得到字符串就可以存储了
+
+  // (2) 获取数据, 拿到jsonStr -> obj
+  //     JSON.parse( jsonStr ); 将json字符串转换成 复杂数据类型
+
+
+
+
+</script>
+
+</body>
+</html>
