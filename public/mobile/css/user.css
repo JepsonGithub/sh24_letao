@@ -1,4 +1,7 @@
-@charset "UTF-8";
-.logout_wrap {
+
+.btnWrapper {
   padding: 10px;
+}
+.logoutBtn {
+  padding: 5px;
 }

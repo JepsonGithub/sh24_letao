@@ -1,75 +1,87 @@
 /**
- * Created by Jepson on 2018/4/3.
+ * Created by Jepson on 2018/7/1.
  */
-$(function () {
-  
-  //1. 先去地址栏获取到productId
-  var productId = tools.getSearch("productId");
-  
+
+$(function() {
+
+
+  // 1. 一进入页面, 获取地址栏商品 id, 发送 ajax 请求, 获取数据渲染页面
+  var productId = getSearch("productId");
+
   $.ajax({
-    type:"get",
-    url:"/product/queryProductDetail",
-    data:{
-      id:productId
+    type: "get",
+    url: "/product/queryProductDetail",
+    data: {
+      id: productId
     },
-    success:function (data) {
-      $(".mui-scroll").html( template("tpl", data));
-      //初始化轮播图
-      mui(".mui-slider").slider({
-        interval: 1000
+    dataType: "json",
+    success: function( info ) {
+      console.log( info );
+      var htmlStr = template( "productTpl", info );
+      $('.lt_main .mui-scroll').html( htmlStr );
+
+
+      // 在页面 html执行之后, 才有轮播结构
+      //获得slider插件对象, 调用 mui 方法进行 轮播图初始化
+      var gallery = mui('.mui-slider');
+      gallery.slider({
+        interval:5000 //自动轮播周期，若为0则不自动播放，默认为0；
       });
-      //选择尺码, 不用注册委托事件
-      $(".lt_size span").on("click", function () {
-        $(this).addClass("now").siblings().removeClass("now");
-      });
-      //初始化数字输入框
-      mui(".mui-numbox").numbox();
+
+      // 初始化数字框
+      mui('.mui-numbox').numbox()
     }
   });
-  
-  
-  //添加购物车
-  //1. 点击按钮
-  //2. 获取id， 尺码  ，数量
-  //3. 发送ajax请求， 根据结果
-  $(".btn_add_cart").on("click", function () {
-    
-    //获取尺码
-    var size = $(".lt_size span.now").text();
-    if(!size){
-      mui.toast("请选择尺码");
-      return false;
+
+
+  // 用户选择尺码功能
+  $('.lt_main').on("click", ".lt_size span", function() {
+    $(this).addClass("current").siblings().removeClass("current");
+  });
+
+
+  // 2. 加入购物车功能
+  // (1) 给按钮添加点击事件
+  // (2) 获取用户选择的尺码和数量,  (用户要能选)
+  // (3) 发送 ajax 请求, 加入购物车
+  $('#goCart').click(function() {
+
+    var size = $('.lt_size span.current').text();  // 尺码
+    var num = $('.mui-numbox-input').val(); // 数量
+
+    if ( !size ) {
+      mui.toast( "请选择尺码" );
+      return;
     }
-    
-    //获取数量
-    var num = $(".mui-numbox-input").val();
-    
-    //发送ajax请求
+
     $.ajax({
-      type:"post",
-      url:"/cart/addCart",
-      data:{
-        productId:productId,
-        num:num,
-        size:size
+      type: "post",
+      url: "/cart/addCart",
+      data: {
+        productId: productId,
+        num: num,
+        size: size
       },
-      success:function (data) {
-        //如果登录了，添加成功
-        if(data.success){
-          mui.confirm("添加成功","温馨提示",["去购物车", "继续浏览"], function (e) {
-            if(e.index == 0){
+      dataType: "json",
+      success: function( info ) {
+        console.log( info )
+        if ( info.success ) {
+          // 已登陆, 加入购物车成功
+          // 通过 mui 确认框, 提示用户加入成功
+          mui.confirm( "添加成功", "温馨提示", ["去购物车", "继续浏览"], function( e ) {
+            if ( e.index === 0 ) {
+              // 前往购物车
               location.href = "cart.html";
             }
-          });
+          })
         }
-        //如果没登录，添加失败
-        if(data.error == 400){
-          //说明没登录,跳转到登录页面, 把当前页的地址传递到了登录页面。
-          location.href = "login.html?retUrl="+location.href;
+        if ( info.error === 400 ) {
+          // 跳转到登陆页, 将来登陆成功需要跳回来, 需要将当前的url传递过去
+          location.href = "login.html?retUrl=" + location.href;
         }
       }
-    });
-    
+    })
+
   });
-  
+
 });

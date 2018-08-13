@@ -23,8 +23,8 @@
 
     var obj = {};
     arr.forEach(function( v, i ) {  // v 就是每一项, ["name=pp"]
-      var key = v.split("=")[0];
-      var value = v.split("=")[1];
+      var key = v.split("=")[0];  // name
+      var value = v.split("=")[1];  // pp
       obj[key] = value;
     });
 
@@ -32,9 +32,6 @@
   }
 
   console.log( getSearch("desc") );
-
-
-
 
 </script>
 

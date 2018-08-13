@@ -1,43 +1,38 @@
-@charset "utf-8";
-
-/* sort 开始 */
-.sort {
-  background-color: #eee;
+.lt_sort {
   height: 30px;
   line-height: 30px;
   padding: 0 10px;
+  background-color: #EEEEEE;
   font-size: 12px;
 }
-.sort a {
-  width: 25%;
+.lt_sort a {
   float: left;
+  width: 25%;
+  height: 30px;
   text-align: center;
   color: #666;
 }
-.sort a.current {
-  color: darkorange;
+.lt_sort a.current {
+  color: orange;
 }
-/* sort 结束 */
 
-
-/* loading 开始 */
 .loading {
-  width: 40px;
-  height: 40px;
-  border: 3px solid #069;
+  width: 50px;
+  height: 50px;
+  border: 3px solid #006699;
   position: absolute;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%);
   top: 200px;
-  animation: play 1s infinite;
+  /* 动画名称 动画时间 无限次*/
+  animation: rotate 2s infinite linear;
 }
 
-@keyframes play {
-  from{
-    transform: translateX(-50%) rotate(0deg);
+@keyframes rotate {
+  from {
+    transform: translate(-50%) rotate(0deg);
   }
-  to{
-    transform: translateX(-50%) rotate(360deg);
+  to {
+    transform: translate(-50%) rotate(360deg);
   }
 }
-/* loading 结束 */

@@ -1,27 +1,31 @@
 /**
- * Created by Jepson on 2018/4/3.
+ * Created by Jepson on 2018/7/1.
  */
 
+$(function() {
 
-$(function () {
-  
-  $(".btn_login").on("click", function () {
-    
-    
-    var username = $("[name='username']").val().trim();
-    var password = $("[name='password']").val().trim();
-    
-    
-    //校验
-    if (!username) {
+
+  // 点击登陆功能
+  // 1. 绑定点击事件
+  // 2. 获取输入框的值 (用户名和密码)
+  // 3. 发送 ajax 请求, 进行登录
+  //    如果传递过来了 url 地址, 根据 url 地址跳回去
+  //    如果没传 url 地址, 默认跳转到会员中心
+
+  $('#loginBtn').click(function() {
+    var username = $('[name="username"]').val();
+    var password = $('[name="password"]').val();
+
+    // 非空校验
+    if ( !username ) {
       mui.toast("请输入用户名");
-      return false;
+      return;
     }
-    if (!password) {
+    if ( !password ) {
       mui.toast("请输入密码");
-      return false;
+      return;
     }
-    
+
     $.ajax({
       type: "post",
       url: "/user/login",
@@ -29,31 +33,34 @@ $(function () {
         username: username,
         password: password
       },
-      success: function (data) {
-        if (data.error === 403) {
-          mui.toast(data.message);
+      dataType: "json",
+      success: function( info ) {
+        console.log( info );
+
+        if ( info.error ) {
+          mui.toast("用户名或者密码错误" );
         }
-        
-        if (data.success) {
-          //成功了，怎么办？
-          //如果是购物车这类页面跳转过来的，需要跳回去
-          //如果是直接访问的login页面，需要跳转到会员中心
-          //获取到retUrl参数，如果有这个参数，直接跳转回去即可。如果没有没有这个，默认跳到会员中心。
-          var search = location.search;
-          if (search.indexOf("retUrl") != -1) {
-            //说明需要回跳
-            search = search.replace("?retUrl=", "");
-            location.href = search;
-          } else {
-            //跳转到会员中心
+
+        if ( info.success ) {
+          // 登录成功, 需要跳转
+          // (1) 传地址了, 跳到地址页面
+          // (2) 没传地址, 跳到会员中心
+          // 只需要看 location.search 中有没有 retUrl
+
+          if ( location.search.indexOf( "retUrl" ) > -1 ) {
+            // 说明传地址了
+            var retUrl = location.search.replace("?retUrl=", "");
+            location.href = retUrl; // 跳转过去
+          }
+          else {
+            // 没传地址, 跳会员中心
             location.href = "user.html";
           }
-          
+
         }
       }
-    });
-    
+    })
+
   });
-  
-  
-});
+
+})

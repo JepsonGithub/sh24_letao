@@ -1,40 +1,50 @@
 /**
- * Created by Jepson on 2018/4/3.
+ * Created by Jepson on 2018/7/1.
  */
-$(function () {
-  
-  //需要发送ajax请求，获取到用户的信息
+
+
+$(function() {
+
+
+  // 1. 一进入页面, 需要获取当前用户用户信息, 进行渲染
   $.ajax({
-    type:"get",
-    url:"/user/queryUserMessage",
-    success:function (data) {
-      
-      if(data.error=== 400){
+    type: "get",
+    url: "/user/queryUserMessage",
+    dataType: "json",
+    success: function( info ) {
+      console.log( info );
+
+      if ( info.error === 400 ) {
+        // 说明当前用户没登陆, 直接跳转登陆页
         location.href = "login.html";
+        return;
       }
-      
-      //直接渲染用户信息
-      console.log(data);
-      $(".userinfo").html( template("tpl", data) );
-      
-      
+
+      // 获取到用户信息, 结合模板引擎渲染
+      var htmlStr = template( "tpl", info );
+      $('#userInfo').html( htmlStr );
     }
   });
-  
-  
-  
-  //退出功能
-  $(".btn_logout").on("click", function () {
-    
+
+
+  // 2. 点击退出按钮, 实现退出功能, 跳转到登录页
+  $('.logoutBtn').click(function() {
+
     $.ajax({
-      type:"get",
-      url:"/user/logout",
-      success:function (data) {
-        if(data.success) {
+      type: "get",
+      url: "/user/logout",
+      dataType: "json",
+      success: function( info ) {
+        console.log( info )
+
+        if ( info.success ) {
+          // 退出成功
           location.href = "login.html";
         }
       }
-    });
-    
+    })
+
   })
-});
+
+
+})

@@ -723,11 +723,12 @@ p
 {
     position: absolute;
     z-index: 2;
+    /* top: 0 和 bottom 0 在没有设置高的时候, 会让容器撑满父容器, 就是 height: 100%的效果*/
     top: 0;
     bottom: 0;
     left: 0;
+    right: 0;
     overflow: hidden;
-    width: 100%;
 }
 
 .mui-scroll
@@ -737,6 +738,10 @@ p
 
     width: 100%;
 
+    /* (transform 3d系列)
+       translateZ 可以让手机启用 gpu 渲染, 开启硬件加速, 可以提升页面的渲染性能
+       可能相对比较耗电
+    */
     -webkit-transform: translateZ(0);
             transform: translateZ(0);
 }
