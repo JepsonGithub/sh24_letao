@@ -15,6 +15,10 @@ $(function() {
         dataType: "json",
         success: function( info ) {
           console.log( info );
+          if ( info.error === 400 ) {
+            location.href = "login.html";
+          }
+
           var htmlStr = template( "tpl", { arr: info } );
           $('.lt_main .mui-table-view').html( htmlStr );
 
